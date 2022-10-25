@@ -6,11 +6,11 @@
 #    By: malord <malord@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/20 10:07:57 by malord            #+#    #+#              #
-#    Updated: 2022/10/25 15:36:00 by malord           ###   ########.fr        #
+#    Updated: 2022/10/25 15:40:51 by malord           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	push_swap
+NAME		=	philosophers
 LIBFT		=	libft/libft.a
 
 CC			=	gcc
