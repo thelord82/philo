@@ -1,2 +1,4 @@
 philosophers
 libft
+.DS_Store
+bin/*.o

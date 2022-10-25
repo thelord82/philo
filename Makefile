@@ -6,7 +6,7 @@
 #    By: malord <malord@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/20 10:07:57 by malord            #+#    #+#              #
-#    Updated: 2022/10/25 15:40:51 by malord           ###   ########.fr        #
+#    Updated: 2022/10/25 16:09:19 by malord           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,15 +16,18 @@ LIBFT		=	libft/libft.a
 CC			=	gcc
 CFLAGS		=	-g -Wall -Werror -Wextra
 RM			=	rm -f
+OBJDIR		=	bin/
+SRCDIR		=	src/
 
-SRCS		=	philo.c
+SRCS		=	src/philo.c
 
-OBJS		= 	${SRCS:.c=.o}
+#OBJS		= 	${SRCS:.c=.o}
+OBJS		= $(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
 
 # Targets
 
-.c.o:
-				@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+# .c.o:
+#				@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 $(NAME): 		$(OBJS)
 				@echo "Compiling libft..."
@@ -36,6 +39,12 @@ $(NAME): 		$(OBJS)
 
 all: 			$(NAME)
 
+$(OBJS) : $(OBJDIR)%.o : $(SRCDIR)%.c $(OBJDIR)
+				@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR):
+				@mkdir -p $(OBJDIR)
+	
 # Removes objects
 clean:
 				@echo "Removing $(NAME) objects..."
@@ -55,6 +64,14 @@ fclean: 		clean
 
 debug:			all
 				$(CC) -g $(CFLAGS) -o $(NAME) $(SRCS) $(LIBFT)
+
+valgrind:		all
+				valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
+			
+norm:		
+				@norminette include/
+				@norminette src/
+				@norminette libft/
 
 # Removes objects and executable then remakes all
 re: 			fclean all
