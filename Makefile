@@ -6,11 +6,11 @@
 #    By: malord <malord@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/20 10:07:57 by malord            #+#    #+#              #
-#    Updated: 2022/10/26 08:55:35 by malord           ###   ########.fr        #
+#    Updated: 2022/10/26 08:59:45 by malord           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	philosophers
+NAME		=	philo
 #LIBFT		=	libft/libft.a
 
 CC			=	gcc
