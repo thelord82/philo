@@ -6,15 +6,15 @@
 #    By: malord <malord@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/20 10:07:57 by malord            #+#    #+#              #
-#    Updated: 2022/10/25 16:09:19 by malord           ###   ########.fr        #
+#    Updated: 2022/10/26 08:55:35 by malord           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	philosophers
-LIBFT		=	libft/libft.a
+#LIBFT		=	libft/libft.a
 
 CC			=	gcc
-CFLAGS		=	-g -Wall -Werror -Wextra
+CFLAGS		=	-g -pthread -Wall -Werror -Wextra
 RM			=	rm -f
 OBJDIR		=	bin/
 SRCDIR		=	src/
@@ -30,11 +30,12 @@ OBJS		= $(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
 #				@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 $(NAME): 		$(OBJS)
-				@echo "Compiling libft..."
-				@$(MAKE) -C libft
-				@echo "libft compiled successfully."
+#				@echo "Compiling libft..."
+#				@$(MAKE) -C libft
+#				@echo "libft compiled successfully."
 				@echo "Compiling $(NAME) sources"
-				@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+#				@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+				@$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 				@echo "Done !"
 
 all: 			$(NAME)
@@ -49,21 +50,18 @@ $(OBJDIR):
 clean:
 				@echo "Removing $(NAME) objects..."
 				@$(RM) $(OBJS)
-				@echo "Removing libft objects..."
-				@make clean -C libft
+#				@echo "Removing libft objects..."
+#				@make clean -C libft
 				@echo "$(NAME) objects successfully deleted."
-				@echo "libft objects successfully deleted."
+#				@echo "libft objects successfully deleted."
 
 # Removes objects and executable
 fclean: 		clean
 				@echo "Removing $(NAME) program..."
 				@$(RM) $(NAME)
-				@echo "Removing libft archive..."
-				@$(RM) $(LIBFT)
+#				@echo "Removing libft archive..."
+#				@$(RM) $(LIBFT)
 				@echo "Executable(s) and archive(s) successfully deleted."
-
-debug:			all
-				$(CC) -g $(CFLAGS) -o $(NAME) $(SRCS) $(LIBFT)
 
 valgrind:		all
 				valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
@@ -71,7 +69,7 @@ valgrind:		all
 norm:		
 				@norminette include/
 				@norminette src/
-				@norminette libft/
+#				@norminette libft/
 
 # Removes objects and executable then remakes all
 re: 			fclean all
