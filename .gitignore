@@ -4,3 +4,4 @@ libft
 bin/*.o
 src/a.out.dSYM/Contents/Info.plist
 src/a.out.dSYM/Contents/Resources/DWARF/a.out
+philo
