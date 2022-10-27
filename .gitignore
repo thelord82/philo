@@ -6,3 +6,7 @@ src/a.out.dSYM/Contents/Info.plist
 src/a.out.dSYM/Contents/Resources/DWARF/a.out
 philo
 philo.dSYM/Contents/Info.plist
+src/a.out
+src/test.c
+.gitignore
+src/tests.c
