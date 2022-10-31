@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:00:29 by malord            #+#    #+#             */
-/*   Updated: 2022/10/31 12:02:37 by malord           ###   ########.fr       */
+/*   Updated: 2022/10/31 12:04:46 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,10 @@ void	*test_function(void *arg)
 	printf("et voila!\n");
 	return (NULL);
 }
-//int mails = 0;
-pthread_mutex_t mutex;
 
 void *routine(void *arg)
 {
+	pthread_mutex_t mutex;
 	int *result = malloc(sizeof(int));
 	int mails = 0;
 	(void)arg;
