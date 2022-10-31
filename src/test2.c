@@ -1,15 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   test2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/27 13:36:26 by malord            #+#    #+#             */
-/*   Updated: 2022/10/31 11:59:59 by malord           ###   ########.fr       */
+/*   Created: 2022/10/31 12:00:29 by malord            #+#    #+#             */
+/*   Updated: 2022/10/31 12:02:37 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// TEST DE RETURN VALUE FROM THREAD ! 
 #include "../include/philo.h"
 
 int	ft_isspace(char c)
@@ -58,7 +59,7 @@ void	*test_function(void *arg)
 	printf("et voila!\n");
 	return (NULL);
 }
-int mails = 0;
+//int mails = 0;
 pthread_mutex_t mutex;
 
 void *routine(void *arg)
