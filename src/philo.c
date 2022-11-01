@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:36:26 by malord            #+#    #+#             */
-/*   Updated: 2022/10/31 11:59:59 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/01 15:41:15 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,10 @@ void	*test_function(void *arg)
 	printf("et voila!\n");
 	return (NULL);
 }
-int mails = 0;
-pthread_mutex_t mutex;
 
-void *routine(void *arg)
+/*void *routine(void *arg)	// TEST FUNCTION
 {
+	pthread_mutex_t mutex;
 	int *result = malloc(sizeof(int));
 	int mails = 0;
 	(void)arg;
@@ -74,62 +73,70 @@ void *routine(void *arg)
 	}
 	*result = mails;
 	printf("Valeur de result = %d\n", *result);
+	usleep(500000);
 	return ((void *)result);
+}*/
+
+void	lets_eat(int philo)
+{
+	t_philo	*philos;
+
+	philos = get_data();
+	pthread_mutex_lock(&philos->forks[philo]);
+	printf("philo %d has taken a fork\n", philo);
+	pthread_mutex_lock(&philos->forks[philo + 1]);
+	printf("philo %d has taken a fork\n", philo);
+	printf("philo %d is eating\n", philo);
+	pthread_mutex_unlock(&philos->forks[philo]);
+	pthread_mutex_unlock(&philos->forks[philo + 1]);
+	usleep(philos->time_to_eat * 1000);
+	printf("philo %d is sleeping\n", philo);
+	usleep(philos->time_to_sleep * 1000);
+	printf("philo %d is thinking\n", philo);
+	/* TODO Si le temps de manger + le temps de dormir + le temps de penser
+	depasse le time_to_die, le philo doit mourir*/
 }
 
-void	*init_threads(int nb_philo)
+void	*init_sim(void *arg)
 {
-	int			i;
-	pthread_t	*philos;
+	int		i;
+	t_philo	*philos;
 
-	i = 0;
-	philos = malloc(sizeof(pthread_t) * nb_philo);
-	int *res;
-	while (i < nb_philo)
+	philos = get_data();
+	(void)arg;
+	i = 1;
+	while (i <= philos->nb_philos)
 	{
-		if (pthread_create(&philos[i], NULL, &routine, NULL) != 0)
+		lets_eat(i);
+		if (i + 2 < philos->nb_philos)
 		{
-			printf("Error creating threads\n");
-			return (NULL);
+			i++;
+			lets_eat(i + 2);
 		}
-		if (pthread_join(philos[i], (void **)&res) != 0)
-		{
-			printf("Error terminating thread\n");
-			return (NULL);
-		}
-		i++;
-		printf("Valeur de result final = %d\n", *res);
-		free(res);
 	}
 	return (NULL);
 }
 
 int	main(int argc, char **argv)
 {
-	int	nb_philo;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	eat_times;
 	//pthread_mutex_t *mutex;
 	//mutex = malloc(sizeof(mutex) * ft_atoi(argv[1]));
 	//pthread_mutex_t mutex;
 	//pthread_t thread1, thread2, thread3, thread4;
-	if (argc == 5 || argc == 6)
+	//t_philo	*philos;
+
+	//philos = get_data();
+	void *arg = NULL;
+	if (init_struct(argc, argv) == false)
 	{
-		nb_philo = ft_atoi(argv[1]);
-		time_to_die = ft_atoi(argv[2]);
-		time_to_eat = ft_atoi(argv[3]);
-		time_to_sleep = ft_atoi(argv[4]);
-		if (argc == 6)
-			eat_times = ft_atoi(argv[5]);
-		init_threads(nb_philo);
-	}
-	else
 		printf("Error : Wrong number of arguments\n");
-	/*(void)argc;
-	(void)argv;
-	pthread_mutex_init(&mutex, NULL);
+		return (1);
+	}
+	while (1)
+	{
+		init_sim(arg);
+	}
+	/*pthread_mutex_init(&mutex, NULL);
 	if (pthread_create(&thread1, NULL, &routine, NULL) != 0)
 		return (1);
 	if (pthread_create(&thread2, NULL, &routine, NULL) != 0)
