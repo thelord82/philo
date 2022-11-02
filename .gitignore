@@ -10,3 +10,5 @@ src/a.out
 src/test.c
 .gitignore
 src/tests.c
+.vscode/c_cpp_properties.json
+.vscode/settings.json
