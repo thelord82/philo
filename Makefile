@@ -6,7 +6,7 @@
 #    By: malord <malord@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/20 10:07:57 by malord            #+#    #+#              #
-#    Updated: 2022/11/01 11:17:20 by malord           ###   ########.fr        #
+#    Updated: 2022/11/02 15:02:07 by malord           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,9 @@ norm:
 				@norminette include/
 				@norminette src/
 #				@norminette libft/
+
+segfault:		
+				@$(CC) $(CFLAGS) -fsanitize=address -o $(NAME) $(OBJS)
 
 # Removes objects and executable then remakes all
 re: 			fclean all
