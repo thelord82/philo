@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 08:59:56 by malord            #+#    #+#             */
-/*   Updated: 2022/11/01 14:24:28 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/02 13:56:33 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,19 @@ typedef struct s_philo {
 	int				nb_eats;
 }	t_philo;
 
+typedef struct s_table {
+	t_philo			*data_philo;
+	pthread_mutex_t	mute_message;
+}	t_table;
+
 t_philo	*get_data(void);
 int		ft_atoi(const char *str);
 int		ft_isdigit(char c);
 int		ft_isspace(char c);
-bool	init_struct(int argc, char **argv);
+bool	init_struct(int argc, char **argv, t_table *table);
 void	*init_sim(void *arg);
 void	*init_threads(int nb_philo);
 void	*routine(void *arg);
+t_table	*get_table(void);
 
 #endif

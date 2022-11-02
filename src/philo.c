@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:36:26 by malord            #+#    #+#             */
-/*   Updated: 2022/11/01 15:41:15 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/02 15:16:38 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,43 +77,68 @@ void	*test_function(void *arg)
 	return ((void *)result);
 }*/
 
+void	lets_sleep(int philo)
+{
+	t_philo *philos;
+
+	philos = get_data();
+	pthread_mutex_unlock(&philos->forks[philo]);
+	pthread_mutex_unlock(&philos->forks[philo + 1]);
+	printf("%d is sleeping\n", philo);
+	usleep(philos->time_to_sleep * 1000);
+	printf("%d is thinking\n", philo);
+}
+
 void	lets_eat(int philo)
 {
 	t_philo	*philos;
+	t_table *table;
 
+	if (philo % 2 == 0)
+		return ;
 	philos = get_data();
-	pthread_mutex_lock(&philos->forks[philo]);
-	printf("philo %d has taken a fork\n", philo);
-	pthread_mutex_lock(&philos->forks[philo + 1]);
-	printf("philo %d has taken a fork\n", philo);
-	printf("philo %d is eating\n", philo);
-	pthread_mutex_unlock(&philos->forks[philo]);
-	pthread_mutex_unlock(&philos->forks[philo + 1]);
+	table = get_table();
+	pthread_mutex_lock(&philos->forks[philo - 1]);
+	pthread_mutex_lock(&table->mute_message);
+	printf("%d has taken fork number %d\n", philo, philo);
+	pthread_mutex_unlock(&table->mute_message);
+	if (philo == 1)
+	{
+		pthread_mutex_lock(&table->mute_message);
+		pthread_mutex_lock(&philos->forks[(philos->nb_philos) - 1]);
+		printf("%d has taken fork number %d\n", philo, philos->nb_philos);
+		printf("%d is eating\n", philo);
+		pthread_mutex_unlock(&table->mute_message);
+		pthread_mutex_unlock(&philos->forks[(philos->nb_philos) - 1]);
+		usleep(philos->time_to_eat * 1000);
+	}
+	else 
+	{
+		pthread_mutex_lock(&philos->forks[philo - 2]);
+		pthread_mutex_lock(&table->mute_message);
+		printf("%d has taken fork number %d\n", philo, philo - 1);
+		printf("%d is eating\n", philo);
+		pthread_mutex_unlock(&table->mute_message);
+		pthread_mutex_unlock(&philos->forks[philo - 2]);
+		usleep(philos->time_to_eat * 1000);
+	}
+	pthread_mutex_unlock(&philos->forks[philo - 1]);
+	pthread_mutex_lock(&table->mute_message);
+	printf("%d is sleeping\n", philo);
+	pthread_mutex_unlock(&table->mute_message);
 	usleep(philos->time_to_eat * 1000);
-	printf("philo %d is sleeping\n", philo);
-	usleep(philos->time_to_sleep * 1000);
-	printf("philo %d is thinking\n", philo);
 	/* TODO Si le temps de manger + le temps de dormir + le temps de penser
 	depasse le time_to_die, le philo doit mourir*/
 }
 
 void	*init_sim(void *arg)
 {
-	int		i;
+	int		*i;
 	t_philo	*philos;
 
 	philos = get_data();
-	(void)arg;
-	i = 1;
-	while (i <= philos->nb_philos)
-	{
-		lets_eat(i);
-		if (i + 2 < philos->nb_philos)
-		{
-			i++;
-			lets_eat(i + 2);
-		}
-	}
+	i = (int *)arg;
+	lets_eat(*(i) + 1);
 	return (NULL);
 }
 
@@ -126,16 +151,22 @@ int	main(int argc, char **argv)
 	//t_philo	*philos;
 
 	//philos = get_data();
-	void *arg = NULL;
-	if (init_struct(argc, argv) == false)
+	//void *arg = NULL;
+	t_table table;
+	t_philo *philos;
+	philos = get_data();
+	pthread_mutex_init(&table.mute_message, NULL);
+	if (init_struct(argc, argv, &table) == false)
 	{
 		printf("Error : Wrong number of arguments\n");
 		return (1);
 	}
-	while (1)
+	pthread_mutex_destroy(&table.mute_message);
+	pthread_mutex_destroy(philos->forks);
+	/*while (1)
 	{
 		init_sim(arg);
-	}
+	}*/
 	/*pthread_mutex_init(&mutex, NULL);
 	if (pthread_create(&thread1, NULL, &routine, NULL) != 0)
 		return (1);
