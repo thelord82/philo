@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:36:26 by malord            #+#    #+#             */
-/*   Updated: 2022/11/02 15:16:38 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/03 08:48:40 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,36 +154,11 @@ int	main(int argc, char **argv)
 	//void *arg = NULL;
 	t_table table;
 	t_philo *philos;
+	if (init_struct(argc, argv) == false)
+		return (1);
 	philos = get_data();
 	pthread_mutex_init(&table.mute_message, NULL);
-	if (init_struct(argc, argv, &table) == false)
-	{
-		printf("Error : Wrong number of arguments\n");
-		return (1);
-	}
 	pthread_mutex_destroy(&table.mute_message);
 	pthread_mutex_destroy(philos->forks);
-	/*while (1)
-	{
-		init_sim(arg);
-	}*/
-	/*pthread_mutex_init(&mutex, NULL);
-	if (pthread_create(&thread1, NULL, &routine, NULL) != 0)
-		return (1);
-	if (pthread_create(&thread2, NULL, &routine, NULL) != 0)
-		return (2);
-	if (pthread_create(&thread3, NULL, &routine, NULL) != 0)
-		return (3);
-	if (pthread_create(&thread4, NULL, &routine, NULL) != 0)
-		return (4);
-	if (pthread_join(thread1, NULL) != 0)
-		return (5);
-	if (pthread_join(thread2, NULL) != 0)
-		return (6);
-	if (pthread_join(thread3, NULL) != 0)
-		return (7);
-	if (pthread_join(thread4, NULL) != 0)
-		return (8);
-	pthread_mutex_destroy(&mutex);*/
 	return (0);
 }
