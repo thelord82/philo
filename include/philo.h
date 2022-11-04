@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 08:59:56 by malord            #+#    #+#             */
-/*   Updated: 2022/11/04 13:02:05 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/04 14:19:18 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_table {
 	int				left_fork_id;
 	int				right_fork_id;
 	long long		t_last_meal;
-	t_philo			*philos;
+	pthread_t		thread_id;
 }	t_table;
 
 t_philo	*get_data(void);
