@@ -6,7 +6,7 @@
 #    By: malord <malord@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/20 10:07:57 by malord            #+#    #+#              #
-#    Updated: 2022/11/03 10:30:19 by malord           ###   ########.fr        #
+#    Updated: 2022/11/04 08:50:07 by malord           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ OBJDIR		=	bin/
 SRCDIR		=	src/
 
 SRCS		=	src/philo.c				\
-				src/init_and_errors.c				
+				src/init_and_errors.c	\
+				src/utils.c			
 
 #OBJS		= 	${SRCS:.c=.o}
 OBJS		= $(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))

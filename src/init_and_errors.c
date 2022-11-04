@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 08:06:54 by malord            #+#    #+#             */
-/*   Updated: 2022/11/03 10:32:31 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/04 10:37:56 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,25 @@
 bool	conversions(int argc, char **argv)
 {
 	t_philo	*philos;
+	int		i;
 
+	i = 1;
 	philos = get_data();
-	philos->nb_philos = ft_atoi(argv[1]);
-	philos->time_to_die = ft_atoi(argv[2]);
-	philos->time_to_eat = ft_atoi(argv[3]);
-	philos->time_to_sleep = ft_atoi(argv[4]);
-	if (argc == 6)
+	while (argv[i])
 	{
-		philos->nb_eats = ft_atoi(argv[5]);
-		if (philos->nb_eats <= 0)
+		if (ft_strlen(argv[i]) > 10 || ft_atol(argv[i]) > INT_MAX)
 		{
-			printf("Error: All arguments must be more than zero\n");
+			printf("Error: All arguments must be a positive integer\n");
 			return (false);
 		}
+		i++;
 	}
+	philos->nb_philos = ft_atol(argv[1]);
+	philos->time_to_die = ft_atol(argv[2]);
+	philos->time_to_eat = ft_atol(argv[3]);
+	philos->time_to_sleep = ft_atol(argv[4]);
+	if (argc == 6)
+		philos->nb_eats = ft_atol(argv[5]);
 	return (true);
 }
 
@@ -41,12 +45,17 @@ bool	init_struct(int argc, char **argv)
 	philos = get_data();
 	if (argc == 5 || argc == 6)
 	{
-		if (conversions(argc, argv) == false)
+		if (check_numbers(argv) == false || conversions(argc, argv) == false)
 			return (false);
 		if (philos->nb_philos <= 0 || philos->time_to_die <= 0
 			|| philos->time_to_eat <= 0 || philos->time_to_sleep <= 0)
 		{
-			printf("Error: All arguments must be more than zero\n");
+			printf("Error: All arguments must be a positive integer\n");
+			return (false);
+		}
+		if (philos->nb_eats != 0 && philos->nb_eats <= 0)
+		{
+			printf("Error: All arguments must be a positive integer\n");
 			return (false);
 		}
 		philos->forks = malloc(sizeof(pthread_mutex_t) * philos->nb_philos);

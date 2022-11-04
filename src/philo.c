@@ -6,51 +6,11 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:36:26 by malord            #+#    #+#             */
-/*   Updated: 2022/11/03 08:48:40 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/04 08:42:04 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-
-int	ft_isspace(char c)
-{
-	if ((c >= 9 && c <= 13) || c == 32)
-		return (1);
-	return (0);
-}
-
-int	ft_isdigit(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
-}
-
-int	ft_atoi(const char *str)
-{
-	int	nombre;
-	int	neg;
-
-	nombre = 0;
-	neg = 1;
-	if (!*str)
-		return (0);
-	while (*str && (ft_isspace(*str) == 1))
-		str++;
-	if (*str == '-')
-	{
-		neg = -neg;
-		str++;
-	}
-	else if (*str == '+')
-		str++;
-	while (str && ft_isdigit(*str) == 1)
-	{
-		nombre = nombre * 10 + (*str - '0');
-		str++;
-	}
-	return (nombre * neg);
-}
 
 void	*test_function(void *arg)
 {
