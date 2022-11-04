@@ -6,33 +6,15 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:36:26 by malord            #+#    #+#             */
-/*   Updated: 2022/11/04 11:00:30 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/04 11:22:06 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-/*void *routine(void *arg)	// TEST FUNCTION
-{
-	pthread_mutex_t mutex;
-	int *result = malloc(sizeof(int));
-	int mails = 0;
-	(void)arg;
-	for (int i = 0; i < 10; i++)
-	{
-		pthread_mutex_lock(&mutex);
-		mails++;
-		pthread_mutex_unlock(&mutex);
-	}
-	*result = mails;
-	printf("Valeur de result = %d\n", *result);
-	usleep(500000);
-	return ((void *)result);
-}*/
-
 void	lets_sleep(int philo)
 {
-	t_philo *philos;
+	t_philo	*philos;
 
 	philos = get_data();
 	pthread_mutex_unlock(&philos->forks[philo]);
@@ -45,7 +27,7 @@ void	lets_sleep(int philo)
 void	lets_eat(int philo)
 {
 	t_philo	*philos;
-	t_table *table;
+	t_table	*table;
 
 	if (philo % 2 == 0)
 		return ;
@@ -65,7 +47,7 @@ void	lets_eat(int philo)
 		pthread_mutex_unlock(&philos->forks[(philos->nb_philos) - 1]);
 		usleep(philos->time_to_eat * 1000);
 	}
-	else 
+	else
 	{
 		pthread_mutex_lock(&philos->forks[philo - 2]);
 		pthread_mutex_lock(&table->mute_message);
@@ -95,8 +77,9 @@ void	*init_sim(void *arg)
 
 int	main(int argc, char **argv)
 {
-	t_table table;
-	t_philo *philos;
+	t_table	table;
+	t_philo	*philos;
+
 	if (init_struct(argc, argv) == false)
 		return (1);
 	philos = get_data();
