@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 08:06:54 by malord            #+#    #+#             */
-/*   Updated: 2022/11/04 10:37:56 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/04 13:03:04 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,47 @@ void	*init_threads(int nb_philo)
 		}
 	}
 	return (NULL);
+}
+
+int	init_mutex(void)
+{
+	t_philo	*philos;
+	int		i;
+
+	i = philos->nb_philos;
+	philos = get_data();
+
+	while (i >= 0)
+	{
+		if (pthread_mutex_init(&philos->forks[i], NULL) != 0)
+			return (1);
+		i--;
+	}
+	if (pthread_mutex_init(&philos->mute_message, NULL) != 0)
+		return (1);
+	if (pthread_mutex_init(&philos->meal_check, NULL) != 0)
+		return (1);
+	return (0);
+}
+
+int	init_philos(void)
+{
+	t_philo	*philos;
+	int		i;
+
+	philos = get_data();
+	i = philos->nb_philos;
+	while (i >= 0)
+	{
+		philos->philosophers[i]->philo_id = i;
+		philos->philosophers[i]->x_ate = 0;
+		philos->philosophers[i]->left_fork_id = i;
+		philos->philosophers[i]->right_fork_id = (i + 1) % philos->nb_philos;
+		philos->philosophers[i]->t_last_meal = 0;
+		philos->philosophers[i]->data_philo = philos;
+		i--;
+	}
+	return (0);
 }
 
 t_philo	*get_data(void)

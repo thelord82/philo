@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 08:40:01 by malord            #+#    #+#             */
-/*   Updated: 2022/11/04 10:39:30 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/04 12:28:45 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ bool	check_numbers(char **argv)
 				printf("Error: You must input only positive digits / numbers\n");
 				return (false);
 			}
-			j++;	
+			j++;
 		}
 		i++;
 	}
