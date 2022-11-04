@@ -6,18 +6,11 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:36:26 by malord            #+#    #+#             */
-/*   Updated: 2022/11/04 08:42:04 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/04 11:00:30 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-
-void	*test_function(void *arg)
-{
-	(void)arg;
-	printf("et voila!\n");
-	return (NULL);
-}
 
 /*void *routine(void *arg)	// TEST FUNCTION
 {
@@ -87,8 +80,6 @@ void	lets_eat(int philo)
 	printf("%d is sleeping\n", philo);
 	pthread_mutex_unlock(&table->mute_message);
 	usleep(philos->time_to_eat * 1000);
-	/* TODO Si le temps de manger + le temps de dormir + le temps de penser
-	depasse le time_to_die, le philo doit mourir*/
 }
 
 void	*init_sim(void *arg)
@@ -104,14 +95,6 @@ void	*init_sim(void *arg)
 
 int	main(int argc, char **argv)
 {
-	//pthread_mutex_t *mutex;
-	//mutex = malloc(sizeof(mutex) * ft_atoi(argv[1]));
-	//pthread_mutex_t mutex;
-	//pthread_t thread1, thread2, thread3, thread4;
-	//t_philo	*philos;
-
-	//philos = get_data();
-	//void *arg = NULL;
 	t_table table;
 	t_philo *philos;
 	if (init_struct(argc, argv) == false)
