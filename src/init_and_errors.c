@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 08:06:54 by malord            #+#    #+#             */
-/*   Updated: 2022/11/04 13:03:04 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/07 15:20:21 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ bool	conversions(int argc, char **argv)
 	return (true);
 }
 
+bool	init_rest(void)
+{
+	if (init_mutex())
+		return (false);
+	init_philos();
+	return (0);
+}
+
 bool	init_struct(int argc, char **argv)
 {
 	t_philo	*philos;
@@ -58,16 +66,18 @@ bool	init_struct(int argc, char **argv)
 			printf("Error: All arguments must be a positive integer\n");
 			return (false);
 		}
-		philos->forks = malloc(sizeof(pthread_mutex_t) * philos->nb_philos);
+		//philos->forks = malloc(sizeof(pthread_mutex_t) * philos->nb_philos);
 		pthread_mutex_init(philos->forks, NULL);
-		init_threads(philos->nb_philos);
+		philo_sim();
+		//init_threads(philos->nb_philos);
+		init_rest();
 		return (true);
 	}
 	printf("Error: Wrong number of arguments\n");
 	return (false);
 }
 
-void	*init_threads(int nb_philo)
+/*void	*init_threads(int nb_philo)
 {
 	int			i;
 	pthread_t	*philos;
@@ -75,34 +85,35 @@ void	*init_threads(int nb_philo)
 
 	i = 0;
 	philos = malloc(sizeof(pthread_t) * nb_philo);
-	while (i++ < nb_philo)
+	while (i < nb_philo)
 	{
 		if (pthread_create(&philos[i], NULL, &init_sim, &i) != 0)
 		{
 			printf("Error creating threads\n");
 			return (NULL);
 		}
+		i++;
 	}
 	i = 0;
-	while (i++ < nb_philo)
+	while (i < nb_philo)
 	{
 		if (pthread_join(philos[i], (void **)&res) != 0)
 		{
 			printf("Error terminating thread\n");
 			return (NULL);
 		}
+		i++;
 	}
 	return (NULL);
-}
+}*/
 
 int	init_mutex(void)
 {
 	t_philo	*philos;
 	int		i;
 
-	i = philos->nb_philos;
 	philos = get_data();
-
+	i = philos->nb_philos;
 	while (i >= 0)
 	{
 		if (pthread_mutex_init(&philos->forks[i], NULL) != 0)
@@ -123,16 +134,30 @@ int	init_philos(void)
 
 	philos = get_data();
 	i = philos->nb_philos;
-	while (i >= 0)
+	while (i > 0)
 	{
-		philos->philosophers[i]->philo_id = i;
-		philos->philosophers[i]->x_ate = 0;
-		philos->philosophers[i]->left_fork_id = i;
-		philos->philosophers[i]->right_fork_id = (i + 1) % philos->nb_philos;
-		philos->philosophers[i]->t_last_meal = 0;
-		philos->philosophers[i]->data_philo = philos;
+		philos->philosophers[i].philo_id = i;
+		philos->philosophers[i].x_ate = 0;
+		philos->philosophers[i].left_fork_id = i;
+		if (i == 1)
+			philos->philosophers[i].right_fork_id = philos->nb_philos;
+		else
+			philos->philosophers[i].right_fork_id = i - 1;
+		philos->philosophers[i].t_last_meal = 0;
+		philos->philosophers[i].data_philo = philos;
 		i--;
 	}
+	/*i = 0;
+	while (i < philos->nb_philos)
+	{
+		philos->philosophers[i].philo_id = i;
+		philos->philosophers[i].x_ate = 0;
+		philos->philosophers[i].left_fork_id = i;
+		philos->philosophers[i].right_fork_id = (philos->nb_philos) - 1 % (i + 1);
+		philos->philosophers[i].t_last_meal = 0;
+		philos->philosophers[i].data_philo = philos;
+		i++;
+	}*/
 	return (0);
 }
 
