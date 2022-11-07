@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:36:26 by malord            #+#    #+#             */
-/*   Updated: 2022/11/07 14:47:55 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/07 18:54:35 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void	*p_thread(void *void_philosopher)
 	i = 0;
 	table = (t_table *)void_philosopher;
 	philos = get_data();
-	if (philos->philo_id % 2)
+	if (table->philo_id % 2)
 		usleep(15000);
 	while (!(philos->dead))
 	{
@@ -176,11 +176,11 @@ void	*p_thread(void *void_philosopher)
 int	main(int argc, char **argv)
 {
 	//t_table	table;
-	t_philo	*philos;
+	//t_philo	*philos;
 
 	if (init_struct(argc, argv) == false)
 		return (1);
-	philos = get_data();
+	//philos = get_data();
 	//philo_sim();
 	//pthread_mutex_init(&philos->mute_message, NULL);
 	//pthread_mutex_destroy(&philos->mute_message);
