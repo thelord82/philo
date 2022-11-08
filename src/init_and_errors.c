@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 08:06:54 by malord            #+#    #+#             */
-/*   Updated: 2022/11/07 15:20:21 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/07 19:47:34 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ bool	init_struct(int argc, char **argv)
 			return (false);
 		}
 		//philos->forks = malloc(sizeof(pthread_mutex_t) * philos->nb_philos);
-		pthread_mutex_init(philos->forks, NULL);
+		//pthread_mutex_init(philos->forks, NULL);
+		init_rest();
 		philo_sim();
 		//init_threads(philos->nb_philos);
-		init_rest();
 		return (true);
 	}
 	printf("Error: Wrong number of arguments\n");
@@ -113,12 +113,12 @@ int	init_mutex(void)
 	int		i;
 
 	philos = get_data();
-	i = philos->nb_philos;
-	while (i >= 0)
+	i = 0;
+	while (i < philos->nb_philos)
 	{
 		if (pthread_mutex_init(&philos->forks[i], NULL) != 0)
 			return (1);
-		i--;
+		i++;
 	}
 	if (pthread_mutex_init(&philos->mute_message, NULL) != 0)
 		return (1);
@@ -133,8 +133,9 @@ int	init_philos(void)
 	int		i;
 
 	philos = get_data();
-	i = philos->nb_philos;
-	while (i > 0)
+	philos->philosophers = malloc(sizeof(t_table) * 200);
+	i = 0;
+	while (i < philos->nb_philos)
 	{
 		philos->philosophers[i].philo_id = i;
 		philos->philosophers[i].x_ate = 0;
@@ -145,7 +146,7 @@ int	init_philos(void)
 			philos->philosophers[i].right_fork_id = i - 1;
 		philos->philosophers[i].t_last_meal = 0;
 		philos->philosophers[i].data_philo = philos;
-		i--;
+		i++;
 	}
 	/*i = 0;
 	while (i < philos->nb_philos)
