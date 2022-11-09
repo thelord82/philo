@@ -6,7 +6,7 @@
 #    By: malord <malord@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/20 10:07:57 by malord            #+#    #+#              #
-#    Updated: 2022/11/07 08:58:30 by malord           ###   ########.fr        #
+#    Updated: 2022/11/09 09:09:57 by malord           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME		=	philo
 #LIBFT		=	libft/libft.a
 
 CC			=	gcc
-CFLAGS		=	-g -pthread -Wall -Werror -Wextra
+CFLAGS		=	-g -Wall -Werror -Wextra
+INCLUDE		=	-lpthread
 RM			=	rm -f
 OBJDIR		=	bin/
 SRCDIR		=	src/
@@ -38,7 +39,7 @@ $(NAME): 		$(OBJS)
 #				@echo "libft compiled successfully."
 				@echo "Compiling $(NAME) sources"
 #				@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
-				@$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+				@$(CC) $(INCLUDE) $(CFLAGS) -o $(NAME) $(OBJS)
 				@echo "Done !"
 
 all: 			$(NAME)

@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 08:06:54 by malord            #+#    #+#             */
-/*   Updated: 2022/11/08 13:49:38 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/09 14:54:02 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ bool	conversions(int argc, char **argv)
 	t_philo	*philos;
 	int		i;
 
-	i = 1;
 	philos = get_data();
+	i = 1;
 	while (argv[i])
 	{
 		if (ft_strlen(argv[i]) > 10 || ft_atol(argv[i]) > INT_MAX)
@@ -33,6 +33,8 @@ bool	conversions(int argc, char **argv)
 	philos->time_to_die = ft_atol(argv[2]);
 	philos->time_to_eat = ft_atol(argv[3]);
 	philos->time_to_sleep = ft_atol(argv[4]);
+	philos->all_ate = 0;
+	philos->dead = 0;
 	if (argc == 6)
 		philos->nb_eats = ft_atol(argv[5]);
 	return (true);
@@ -53,7 +55,8 @@ bool	init_struct(int argc, char **argv)
 	philos = get_data();
 	if (argc == 5 || argc == 6)
 	{
-		if (check_numbers(argv) == false || conversions(argc, argv) == false)
+		if (check_numbers(argv) == false
+			|| conversions(argc, argv) == false)
 			return (false);
 		if (philos->nb_philos <= 0 || philos->time_to_die <= 0
 			|| philos->time_to_eat <= 0 || philos->time_to_sleep <= 0)
@@ -61,7 +64,7 @@ bool	init_struct(int argc, char **argv)
 			printf("Error: All arguments must be a positive integer\n");
 			return (false);
 		}
-		if (philos->nb_eats != 0 && philos->nb_eats <= 0)
+		if (argc == 6 && philos->nb_eats <= 0)
 		{
 			printf("Error: All arguments must be a positive integer\n");
 			return (false);
@@ -80,12 +83,11 @@ int	init_mutex(void)
 	int		i;
 
 	philos = get_data();
-	i = 0;
-	while (i < philos->nb_philos)
+	i = philos->nb_philos;
+	while (--i >= 0)
 	{
 		if (pthread_mutex_init(&philos->forks[i], NULL) != 0)
 			return (1);
-		i++;
 	}
 	if (pthread_mutex_init(&philos->mute_message, NULL) != 0)
 		return (1);
@@ -100,20 +102,15 @@ int	init_philos(void)
 	int		i;
 
 	philos = get_data();
-	philos->philosophers = malloc(sizeof(t_table) * 200);
-	i = 0;
-	while (i < philos->nb_philos)
+	i = philos->nb_philos;
+	while (--i >= 0)
 	{
 		philos->philosophers[i].philo_id = i;
 		philos->philosophers[i].x_ate = 0;
 		philos->philosophers[i].left_fork_id = i;
-		if (i == 0)
-			philos->philosophers[i].right_fork_id = philos->nb_philos - 1;
-		else
-			philos->philosophers[i].right_fork_id = i - 1;
+		philos->philosophers[i].right_fork_id = (i + 1) % philos->nb_philos;
 		philos->philosophers[i].t_last_meal = 0;
 		philos->philosophers[i].data_philo = philos;
-		i++;
 	}
 	return (0);
 }
