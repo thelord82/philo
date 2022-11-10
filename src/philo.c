@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:36:26 by malord            #+#    #+#             */
-/*   Updated: 2022/11/09 19:53:04 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/09 19:58:31 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,4 +148,5 @@ int	main(int argc, char **argv)
 //TODO Verifier si une integration de x_ate et nb_eats dans philo_sim peut fonctionner
 //TODO leaks
 //TODO 1 seul philo, il meurt mais hang
+//TODO 1 seul philo, nb_eats defini, hang avant de mourir
 //TODO Plus de 2 philos et un nb_eats defini, fonctionne pas
