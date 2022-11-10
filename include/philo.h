@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 08:59:56 by malord            #+#    #+#             */
-/*   Updated: 2022/11/09 15:03:43 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/09 19:38:56 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ long long	timestamp(void);
 long long	time_diff(long long past, long long pres);
 bool		init_rest(void);
 int			philo_sim(void);
-void		dead_check(t_philo *philos, t_table *table);
+void		dead_check(t_philo *phi, t_table *table);
 void		exit_sim(t_philo *philos, t_table *table);
 void		lets_eat(t_table *table);
 void		action_print(int id, char *string);
