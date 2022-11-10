@@ -1,44 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_and_errors.c                                  :+:      :+:    :+:   */
+/*   inits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 08:06:54 by malord            #+#    #+#             */
-/*   Updated: 2022/11/09 14:54:02 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/10 10:39:55 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-// Contains functions : conversions, init_struct, init_threads and singletons
-
-bool	conversions(int argc, char **argv)
-{
-	t_philo	*philos;
-	int		i;
-
-	philos = get_data();
-	i = 1;
-	while (argv[i])
-	{
-		if (ft_strlen(argv[i]) > 10 || ft_atol(argv[i]) > INT_MAX)
-		{
-			printf("Error: All arguments must be a positive integer\n");
-			return (false);
-		}
-		i++;
-	}
-	philos->nb_philos = ft_atol(argv[1]);
-	philos->time_to_die = ft_atol(argv[2]);
-	philos->time_to_eat = ft_atol(argv[3]);
-	philos->time_to_sleep = ft_atol(argv[4]);
-	philos->all_ate = 0;
-	philos->dead = 0;
-	if (argc == 6)
-		philos->nb_eats = ft_atol(argv[5]);
-	return (true);
-}
 
 bool	init_rest(void)
 {
@@ -58,17 +30,8 @@ bool	init_struct(int argc, char **argv)
 		if (check_numbers(argv) == false
 			|| conversions(argc, argv) == false)
 			return (false);
-		if (philos->nb_philos <= 0 || philos->time_to_die <= 0
-			|| philos->time_to_eat <= 0 || philos->time_to_sleep <= 0)
-		{
-			printf("Error: All arguments must be a positive integer\n");
+		if (check_values(philos) == false)
 			return (false);
-		}
-		if (argc == 6 && philos->nb_eats <= 0)
-		{
-			printf("Error: All arguments must be a positive integer\n");
-			return (false);
-		}
 		init_rest();
 		philo_sim();
 		return (true);
@@ -113,22 +76,4 @@ int	init_philos(void)
 		philos->philosophers[i].data_philo = philos;
 	}
 	return (0);
-}
-
-t_philo	*get_data(void)
-{
-	static t_philo	*data = NULL;
-
-	if (data == NULL)
-		data = (t_philo *)malloc(sizeof(t_philo));
-	return (data);
-}
-
-t_table	*get_table(void)
-{
-	static t_table	*data = NULL;
-
-	if (data == NULL)
-		data = (t_table *)malloc(sizeof(t_table));
-	return (data);
 }
