@@ -13,3 +13,4 @@ src/tests.c
 .vscode/c_cpp_properties.json
 .vscode/settings.json
 .vscode/launch.json
+file.c
