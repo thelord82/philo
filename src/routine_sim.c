@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 10:36:48 by malord            #+#    #+#             */
-/*   Updated: 2022/11/10 11:27:07 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/10 14:09:43 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ int	philo_sim(void)
 		if (pthread_create(&(table[i].thread_id), NULL, routine_phi,
 				&(table[i])) != 0)
 			return (1);
+		pthread_mutex_lock(&(philos->meal_check));
 		table[i].t_last_meal = timestamp();
+		pthread_mutex_unlock(&(philos->meal_check));
 		i++;
 	}
 	dead_check(philos, philos->philosophers);
@@ -50,7 +52,10 @@ void	*routine_phi(void *void_philosopher)
 	{
 		pthread_mutex_lock(&(philos->eat_check));
 		if (philos->all_ate)
+		{
+			pthread_mutex_unlock(&(philos->eat_check));
 			break ;
+		}
 		pthread_mutex_unlock(&(philos->eat_check));
 		lets_eat(table);
 		action_print(table->philo_id, "is sleeping");
@@ -76,7 +81,9 @@ void	lets_eat(t_table *table)
 	table->t_last_meal = timestamp();
 	pthread_mutex_unlock(&(philos->meal_check));
 	smart_sleep(philos->time_to_eat);
+	pthread_mutex_lock(&(philos->mx_ate));
 	(table->x_ate)++;
+	pthread_mutex_unlock(&(philos->mx_ate));
 	pthread_mutex_unlock(&(philos->forks[table->left_fork_id]));
 	pthread_mutex_unlock(&(philos->forks[table->right_fork_id]));
 }

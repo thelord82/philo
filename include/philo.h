@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 08:59:56 by malord            #+#    #+#             */
-/*   Updated: 2022/11/10 11:35:22 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/10 14:10:56 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct s_philo {
 	pthread_mutex_t	mute_message;
 	pthread_mutex_t	meal_check;
 	pthread_mutex_t	eat_check;
+	pthread_mutex_t	mx_ate;
+	pthread_mutex_t	dead_lock;
 	struct s_table	philosophers[200];
 }	t_philo;
 

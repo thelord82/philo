@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:36:26 by malord            #+#    #+#             */
-/*   Updated: 2022/11/10 11:02:05 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/10 14:15:07 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,15 @@ void	exit_sim(t_philo *philos, t_table *table)
 		pthread_join(table[i].thread_id, NULL);
 	i = -1;
 	while (++i < philos->nb_philos)
+		pthread_mutex_unlock(&(philos->forks[i]));
+	i = -1;
+	while (++i < philos->nb_philos)
 		pthread_mutex_destroy(&(philos->forks[i]));
 	pthread_mutex_destroy(&(philos->mute_message));
 	pthread_mutex_destroy(&(philos->meal_check));
+	pthread_mutex_destroy(&(philos->eat_check));
+	pthread_mutex_destroy(&(philos->mx_ate));
+	pthread_mutex_destroy(&(philos->dead_lock));
 	del_data();
 }
 
@@ -49,7 +55,9 @@ void	kill_philo(t_philo *phi, t_table *table, int i)
 	if (time_diff(table[i].t_last_meal, timestamp()) > phi->time_to_die)
 	{
 		action_print(i, "died");
+		pthread_mutex_lock(&(phi->dead_lock));
 		phi->dead = 1;
+		pthread_mutex_unlock(&(phi->dead_lock));
 	}
 	pthread_mutex_unlock(&(phi->meal_check));
 	usleep(100);
@@ -76,7 +84,11 @@ void	dead_check(t_philo *phi, t_table *table)
 			&& table[i].x_ate >= phi->nb_eats)
 			i++;
 		if (i == phi->nb_philos)
+		{
+			pthread_mutex_lock(&(phi->eat_check));
 			phi->all_ate = 1;
+			pthread_mutex_lock(&(phi->eat_check));
+		}
 	}
 }
 

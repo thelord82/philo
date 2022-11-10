@@ -6,7 +6,7 @@
 #    By: malord <malord@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/20 10:07:57 by malord            #+#    #+#              #
-#    Updated: 2022/11/10 11:35:37 by malord           ###   ########.fr        #
+#    Updated: 2022/11/10 13:42:16 by malord           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME		=	philo
 #LIBFT		=	libft/libft.a
 
 CC			=	gcc
-CFLAGS		=	-g -Wall -Werror -Wextra
+CFLAGS		=	-g -Wall -Werror -Wextra -fsanitize=thread
 INCLUDE		=	-lpthread
 RM			=	rm -f
 OBJDIR		=	bin/
