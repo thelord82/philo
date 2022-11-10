@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:36:26 by malord            #+#    #+#             */
-/*   Updated: 2022/11/09 15:04:01 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/09 19:31:05 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ void	lets_eat(t_table *table)
 	table->t_last_meal = timestamp();
 	pthread_mutex_unlock(&(philos->meal_check));
 	smart_sleep(philos->time_to_eat);
-	table->x_ate++;
+	(table->x_ate)++;
+	//table[table->philo_id].x_ate++;
+	//printf("Valeur de x_ate = %d\n", table->x_ate);
+	//printf("Valeur de nb_eats = %d\n", philos->nb_eats);
 	pthread_mutex_unlock(&(philos->forks[table->left_fork_id]));
 	pthread_mutex_unlock(&(philos->forks[table->right_fork_id]));
 }
@@ -60,33 +63,32 @@ void	exit_sim(t_philo *philos, t_table *table)
 	pthread_mutex_destroy(&(philos->mute_message));
 }
 
-void	dead_check(t_philo *philos, t_table *table)
+void	dead_check(t_philo *phi, t_table *table)
 {
 	int		i;
 
-	while (!(philos->all_ate))
+	while (!(phi->all_ate))
 	{
 		i = -1;
-		while (++i < philos->nb_philos && !(philos->dead))
+		while (++i < phi->nb_philos && !(phi->dead))
 		{
-			pthread_mutex_lock(&(philos->meal_check));
-			if (time_diff(table[i].t_last_meal, timestamp())
-				> philos->time_to_die)
+			pthread_mutex_lock(&(phi->meal_check));
+			if (time_diff(table[i].t_last_meal, timestamp()) > phi->time_to_die)
 			{
 				action_print(i, "died");
-				philos->dead = 1;
+				phi->dead = 1;
 			}
-			pthread_mutex_unlock(&(philos->meal_check));
+			pthread_mutex_unlock(&(phi->meal_check));
 			usleep(100);
 		}
-		if (philos->dead)
+		if (phi->dead)
 			break ;
 		i = 0;
-		while (philos->nb_eats != -1 && i < philos->nb_philos
-			&& table[i].x_ate >= philos->nb_eats)
+		while (phi->nb_eats != -1 && i < phi->nb_philos
+			&& table[i].x_ate >= phi->nb_eats)
 			i++;
-		if (i == philos->nb_philos - 1)
-			philos->all_ate = 1;
+		if (i == phi->nb_philos)
+			phi->all_ate = 1;
 	}
 }
 
