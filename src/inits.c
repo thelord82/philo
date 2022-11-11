@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 08:06:54 by malord            #+#    #+#             */
-/*   Updated: 2022/11/10 14:11:46 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/11 09:26:43 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	init_mutex(void)
 	if (pthread_mutex_init(&philos->mx_ate, NULL) != 0)
 		return (1);
 	if (pthread_mutex_init(&philos->dead_lock, NULL) != 0)
+		return (1);
+	if (pthread_mutex_init(&philos->test, NULL) != 0)
 		return (1);
 	return (0);
 }

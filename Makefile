@@ -6,7 +6,7 @@
 #    By: malord <malord@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/20 10:07:57 by malord            #+#    #+#              #
-#    Updated: 2022/11/11 10:05:49 by malord           ###   ########.fr        #
+#    Updated: 2022/11/11 11:59:01 by malord           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,11 @@ SRCS_FILES	=	philo.c				\
 				time.c				\
 				singletons.c		\
 				routine_sim.c		\
-				errors.c
+				errors.c			\
+				main.c
 
 VPATH		= $(SRCDIR)
 SRC_OBJ		= $(SRCS_FILES:.c=.o)
-#OBJS		= $(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
 SRCS		= $(addprefix $(SRCDIR), $(SRCS_FILES))
 OBJS		= $(addprefix $(OBJDIR), $(SRC_OBJ))
 

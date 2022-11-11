@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 08:59:56 by malord            #+#    #+#             */
-/*   Updated: 2022/11/10 14:10:56 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/11 11:48:28 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_philo {
 	pthread_mutex_t	eat_check;
 	pthread_mutex_t	mx_ate;
 	pthread_mutex_t	dead_lock;
+	pthread_mutex_t	test;
 	struct s_table	philosophers[200];
 }	t_philo;
 
@@ -75,6 +76,7 @@ void		*init_sim(void *arg);
 void		*init_threads(int nb_philo);
 void		kill_philo(t_philo *phi, t_table *table, int i);
 void		lets_eat(t_table *table);
+void		lock_all_ate(t_philo *philos);
 void		*routine_phi(void *void_philosopher);
 void		smart_sleep(long long time);
 

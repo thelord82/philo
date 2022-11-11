@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 08:57:48 by malord            #+#    #+#             */
-/*   Updated: 2022/11/09 15:03:35 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/11 11:59:44 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,15 @@ void	smart_sleep(long long time)
 
 	philos = get_data();
 	i = timestamp();
-	while (!(philos->dead))
+	while (1)
 	{
+		pthread_mutex_lock(&(philos->mute_message));
+		if (philos->dead)
+		{
+			pthread_mutex_unlock(&(philos->mute_message));
+			break ;
+		}
+		pthread_mutex_unlock(&(philos->mute_message));
 		if (time_diff(i, timestamp()) >= time)
 			break ;
 		usleep(50);

@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 10:36:48 by malord            #+#    #+#             */
-/*   Updated: 2022/11/10 14:09:43 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/11 11:26:04 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,9 @@ int	philo_sim(void)
 
 void	*routine_phi(void *void_philosopher)
 {
-	int				i;
 	t_table			*table;
 	t_philo			*philos;
 
-	i = 0;
 	table = (t_table *)void_philosopher;
 	philos = table->data_philo;
 	if (table->philo_id % 2)
@@ -61,7 +59,6 @@ void	*routine_phi(void *void_philosopher)
 		action_print(table->philo_id, "is sleeping");
 		smart_sleep(philos->time_to_sleep);
 		action_print(table->philo_id, "is thinking");
-		i++;
 	}
 	pthread_mutex_unlock(&(philos->eat_check));
 	return (NULL);

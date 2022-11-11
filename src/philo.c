@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:36:26 by malord            #+#    #+#             */
-/*   Updated: 2022/11/10 14:15:07 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/11 11:55:01 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	exit_sim(t_philo *philos, t_table *table)
 	pthread_mutex_destroy(&(philos->eat_check));
 	pthread_mutex_destroy(&(philos->mx_ate));
 	pthread_mutex_destroy(&(philos->dead_lock));
+	pthread_mutex_destroy(&(philos->test));
 	del_data();
 }
 
@@ -55,12 +56,19 @@ void	kill_philo(t_philo *phi, t_table *table, int i)
 	if (time_diff(table[i].t_last_meal, timestamp()) > phi->time_to_die)
 	{
 		action_print(i, "died");
-		pthread_mutex_lock(&(phi->dead_lock));
+		pthread_mutex_lock(&(phi->mute_message));
 		phi->dead = 1;
-		pthread_mutex_unlock(&(phi->dead_lock));
+		pthread_mutex_unlock(&(phi->mute_message));
 	}
 	pthread_mutex_unlock(&(phi->meal_check));
 	usleep(100);
+}
+
+void	lock_all_ate(t_philo *philos)
+{
+	pthread_mutex_lock(&(philos->eat_check));
+	philos->all_ate = 1;
+	pthread_mutex_unlock(&(philos->eat_check));
 }
 
 void	dead_check(t_philo *phi, t_table *table)
@@ -80,24 +88,12 @@ void	dead_check(t_philo *phi, t_table *table)
 			break ;
 		}
 		i = 0;
+		pthread_mutex_lock(&(phi->mx_ate));
 		while (phi->nb_eats != -1 && i < phi->nb_philos
 			&& table[i].x_ate >= phi->nb_eats)
 			i++;
+		pthread_mutex_unlock(&(phi->mx_ate));
 		if (i == phi->nb_philos)
-		{
-			pthread_mutex_lock(&(phi->eat_check));
-			phi->all_ate = 1;
-			pthread_mutex_lock(&(phi->eat_check));
-		}
+			lock_all_ate(phi);
 	}
-}
-
-int	main(int argc, char **argv)
-{
-	if (init_struct(argc, argv) == false)
-	{
-		del_data();
-		return (1);
-	}
-	return (0);
 }
