@@ -6,14 +6,14 @@
 #    By: malord <malord@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/20 10:07:57 by malord            #+#    #+#              #
-#    Updated: 2022/11/11 11:59:01 by malord           ###   ########.fr        #
+#    Updated: 2022/11/11 12:15:08 by malord           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	philo
 
 CC			=	gcc
-CFLAGS		=	-g -Wall -Werror -Wextra -fsanitize=thread
+CFLAGS		=	-g -Wall -Werror -Wextra
 INCLUDE		=	-pthread
 RM			=	rm -f
 OBJDIR		=	bin/

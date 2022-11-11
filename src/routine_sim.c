@@ -6,7 +6,7 @@
 /*   By: malord <malord@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 10:36:48 by malord            #+#    #+#             */
-/*   Updated: 2022/11/11 11:26:04 by malord           ###   ########.fr       */
+/*   Updated: 2022/11/11 12:12:47 by malord           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ int	philo_sim(void)
 	return (0);
 }
 
+static void	print_n_sleep(t_philo *philos, t_table *table)
+{
+	action_print(table->philo_id, "is sleeping");
+	smart_sleep(philos->time_to_sleep);
+	action_print(table->philo_id, "is thinking");
+}
+
 void	*routine_phi(void *void_philosopher)
 {
 	t_table			*table;
@@ -46,19 +53,20 @@ void	*routine_phi(void *void_philosopher)
 	philos = table->data_philo;
 	if (table->philo_id % 2)
 		usleep(15000);
-	while (!(philos->dead))
+	while (1)
 	{
+		pthread_mutex_lock(&(philos->mute_message));
 		pthread_mutex_lock(&(philos->eat_check));
-		if (philos->all_ate)
+		if (philos->dead || philos->all_ate)
 		{
+			pthread_mutex_unlock(&(philos->mute_message));
 			pthread_mutex_unlock(&(philos->eat_check));
 			break ;
 		}
+		pthread_mutex_unlock(&(philos->mute_message));
 		pthread_mutex_unlock(&(philos->eat_check));
 		lets_eat(table);
-		action_print(table->philo_id, "is sleeping");
-		smart_sleep(philos->time_to_sleep);
-		action_print(table->philo_id, "is thinking");
+		print_n_sleep(philos, table);
 	}
 	pthread_mutex_unlock(&(philos->eat_check));
 	return (NULL);
