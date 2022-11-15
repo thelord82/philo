@@ -6,7 +6,7 @@
 #    By: malord <malord@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/20 10:07:57 by malord            #+#    #+#              #
-#    Updated: 2022/11/11 12:15:08 by malord           ###   ########.fr        #
+#    Updated: 2022/11/11 12:45:58 by malord           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,12 +43,12 @@ $(NAME): 		$(OBJS)
 				@$(CC) $(INCLUDE) $(CFLAGS) -o $(NAME) $(OBJS)
 				@echo "Done !"
 
-all: 			obj $(NAME)
+all: 			 $(NAME)
 
-$(OBJDIR)%.o:%.c
+$(OBJDIR)%.o:%.c | $(OBJDIR)
 				@$(CC) $(CFLAGS) -c $< -o $@
 
-obj:
+$(OBJDIR):
 				@mkdir -p $(OBJDIR)
 	
 # Removes objects
